@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: hangout-service
+          uri: lb://hangout-service
+          predicates:
+            - Path=/api/hangouts/**
+          filters:
+            - RewritePath=/api/hangouts/?(?<segment>.*), /$\{segment}
+
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${random.value}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    registerWithEureka: true
+    fetchRegistry: true

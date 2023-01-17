@@ -2,5 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/apps/backend/bom/service-bom" vcs="" />
+    <mapping directory="$PROJECT_DIR$/apps/backend/services/api-gateway" vcs="" />
+    <mapping directory="$PROJECT_DIR$/apps/backend/services/config-service" vcs="" />
+    <mapping directory="$PROJECT_DIR$/apps/backend/services/discovery-service" vcs="" />
+    <mapping directory="$PROJECT_DIR$/apps/backend/services/hangout-service" vcs="" />
   </component>
 </project>
