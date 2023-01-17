@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.hangoutsplanner</groupId>
-        <artifactId>hangouts-planner-service-bom</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <artifactId>service-bom</artifactId>
+        <version>0.0.5-SNAPSHOT</version>
     </parent>
     <artifactId>config-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
