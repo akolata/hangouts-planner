@@ -5,12 +5,12 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: hangout-service
+        - id: hangouts-service-api-v1
           uri: lb://hangout-service
           predicates:
-            - Path=/api/hangouts/**
+            - Path=/api/hangout-service/**
           filters:
-            - RewritePath=/api/hangouts/?(?<segment>.*), /$\{segment}
+            - RewritePath=/api/hangout-service/(?<segment>.*),/api/v1/$\{segment}
 
 eureka:
   instance:
@@ -21,3 +21,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     registerWithEureka: true
     fetchRegistry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,gateway"
