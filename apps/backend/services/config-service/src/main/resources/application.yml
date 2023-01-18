@@ -1,5 +1,7 @@
 server:
   port: 8888
+  shutdown: graceful
+
 spring:
   application:
     name: config-server
@@ -7,13 +9,22 @@ spring:
     active: native
   cloud:
     config:
-      discovery:
-        enabled: true
       server:
         native:
           search-locations:
             - classpath:/config
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true

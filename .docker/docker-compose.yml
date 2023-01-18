@@ -1,0 +1,128 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: hangouts-planner-postgres
+    image: postgres:15.1
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+      - hangouts-planner-postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  keycloak:
+    container_name: hangouts-planner-keycloak
+    image: quay.io/keycloak/keycloak:19.0.3-legacy
+    ports:
+      - "9990:8080"
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: postgres
+      DB_USER: postgres
+      DB_SCHEMA: keycloak
+      DB_PASSWORD: postgres
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    depends_on:
+        - postgres
+
+  config-service:
+    container_name: hangouts-planner-config-service
+    pull_policy: always
+    image: hangouts-planner/config-service:latest
+    ports:
+      - "8888:8888"
+    healthcheck:
+      test: "curl --fail --silent localhost:8888/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
+    networks:
+      backend:
+        aliases:
+          - "config-server"
+
+  discovery-service:
+    container_name: hangouts-planner-discovery-service
+    image: hangouts-planner/discovery-service:latest
+    pull_policy: always
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: "curl --fail --silent localhost:8761/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
+    environment:
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-service:8888"
+    depends_on:
+      config-service:
+        condition: service_healthy
+    networks:
+      backend:
+        aliases:
+          - "discovery-service"
+
+  api-gateway:
+    container_name: hangouts-planner-api-gateway
+    image: hangouts-planner/api-gateway:latest
+    pull_policy: always
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
+    environment:
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-service:8888"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://discovery-service:8761/eureka"
+    depends_on:
+      config-service:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+    networks:
+      backend:
+        aliases:
+          - "api-gateway"
+
+  hangout-service:
+    container_name: hangouts-planner-hangout-service
+    image: hangouts-planner/hangout-service:latest
+    pull_policy: always
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
+    environment:
+      SERVER_PORT: 8080
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-service:8888"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://discovery-service:8761/eureka"
+    depends_on:
+      config-service:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+    networks:
+      backend:
+        aliases:
+          - "hangout-service"
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  hangouts-planner-postgres-data:
+    driver: local
