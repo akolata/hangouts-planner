@@ -9,6 +9,6 @@ class HangoutsController {
 
     @GetMapping("/api/v1/hangouts/test")
     public ResponseEntity<String> test() {
-        return ResponseEntity.ok("test");
+        return ResponseEntity.ok("Hello from: " + this.getClass().getName());
     }
 }

@@ -12,6 +12,12 @@ spring:
             - Path=/api/hangout-service/**
           filters:
             - RewritePath=/api/hangout-service/(?<segment>.*),/api/v1/$\{segment}
+        - id: meeting-service-api-v1
+          uri: lb://meeting-service
+          predicates:
+            - Path=/api/meeting-service/**
+          filters:
+            - RewritePath=/api/meeting-service/(?<segment>.*),/api/v1/$\{segment}
 
 eureka:
   instance:

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: meeting-service
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      fail-fast: true
