@@ -1,0 +1,17 @@
+# @name get access_token for hangouts-planner-backend-client using client_credentials
+POST {{keycloakUrl}}/auth/realms/hangouts-planner/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{keycloakClientId}}&client_secret={{keycloakClientSecret}}
+
+###
+
+# @name get access_token for test-user using password
+POST {{keycloakUrl}}/auth/realms/hangouts-planner/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id={{keycloakClientId}}&client_secret={{keycloakClientSecret}}&username={{keycloakTestUser}}&password={{keycloakTestUserPassword}}
+
+> {%
+client.global.set("access_token", response.body.access_token);
+%}

@@ -20,4 +20,5 @@ docker run \
 ```
 
 ## Links
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#container-images
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#container-images   
+https://springdoc.org/faq.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy

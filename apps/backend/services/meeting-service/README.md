@@ -28,10 +28,10 @@ docker run \
 ## OpenAPI
 
 ### /v3/api-docs
-http://localhost:${SERVER_PORT}/v3/api-docs   
+http://localhost:8082/v3/api-docs   
 
 ### swagger-ui.html
-http://127.0.0.1:${SERVER_PORT}/swagger-ui.html
+http://localhost:8082/swagger-ui.html
 
 ### Web
-http://localhost:${SERVER_PORT}/swagger-ui.html
+http://localhost:8082/swagger-ui.html

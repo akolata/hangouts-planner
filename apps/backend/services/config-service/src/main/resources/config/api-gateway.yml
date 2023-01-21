@@ -12,12 +12,36 @@ spring:
             - Path=/api/hangout-service/**
           filters:
             - RewritePath=/api/hangout-service/(?<segment>.*),/api/v1/$\{segment}
+            - RemoveRequestHeader= Cookie,Set-Cookie
+            - TokenRelay=
         - id: meeting-service-api-v1
           uri: lb://meeting-service
           predicates:
             - Path=/api/meeting-service/**
           filters:
             - RewritePath=/api/meeting-service/(?<segment>.*),/api/v1/$\{segment}
+            - RemoveRequestHeader= Cookie,Set-Cookie
+            - TokenRelay=
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/token
+            authorization-uri: http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/auth
+            user-info-uri: http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/userinfo
+        registration:
+          hangouts-planner-backend-client:
+            provider: keycloak
+            client-id: hangouts-planner-backend-client
+            client-secret: SGNxPHUeR8vSCfoC2y03azoX09bJekXK
+            authorization-grant-type: client_credentials
+      resourceserver:
+          jwt:
+            issuer-uri: "http://localhost:9990/auth/realms/hangouts-planner"
+            jwk-set-uri: "http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/certs"
+            jws-algorithms: RS256
 
 eureka:
   instance:
@@ -43,3 +67,7 @@ management:
     health:
       probes:
         enabled: true
+
+logging:
+  level:
+    com.netflix.discovery: OFF

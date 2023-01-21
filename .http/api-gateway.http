@@ -1,0 +1,12 @@
+# @name get routes
+GET {{apiGatewayUrl}}/actuator/gateway/routes
+
+###
+# @name hangout-service test endpoint
+GET {{apiGatewayUrl}}/api/hangout-service/hangouts/test
+Authorization: Bearer {{access_token}}
+
+###
+# @name meeting-service test endpoint
+GET {{apiGatewayUrl}}/api/meeting-service/meetings/test
+Authorization: Bearer {{access_token}}

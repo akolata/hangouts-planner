@@ -1,0 +1,19 @@
+# @name actuator health
+GET {{configServiceUrl}}/actuator/health
+
+###
+
+# @name actuator health/liveness
+GET {{configServiceUrl}}/actuator/health/liveness
+
+###
+# @name actuator health/readiness
+GET {{configServiceUrl}}/actuator/health/readiness
+
+###
+# @name api-gateway service properties
+GET {{configServiceUrl}}/api-gateway/default
+
+###
+# @name hangout-service properties
+GET {{configServiceUrl}}/hangout-service/default
