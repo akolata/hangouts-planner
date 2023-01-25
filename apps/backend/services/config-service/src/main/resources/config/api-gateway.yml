@@ -71,3 +71,9 @@ management:
 logging:
   level:
     com.netflix.discovery: OFF
+    org:
+      springframework:
+        web: INFO
+        security: INFO
+        security.oauth2: INFO
+        cloud.gateway: TRACE

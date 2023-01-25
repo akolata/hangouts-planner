@@ -1,0 +1,3 @@
+# @name get user info from JWT access_token
+GET {{hangoutsPlannerBffServiceUrl}}/api/v1/users/user-info
+Authorization: Bearer {{access_token}}

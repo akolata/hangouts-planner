@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: hangouts-planner-bff-service
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      fail-fast: true
+
