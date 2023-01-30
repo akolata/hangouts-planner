@@ -5,6 +5,14 @@ server:
 spring:
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - "*"
+            allowed-headers:
+              - "*"
       routes:
         - id: hangouts-service-api-v1
           uri: lb://hangout-service
@@ -22,6 +30,14 @@ spring:
             - RewritePath=/api/meeting-service/(?<segment>.*),/api/v1/$\{segment}
             - RemoveRequestHeader= Cookie,Set-Cookie
             - TokenRelay=
+        - id: hangouts-planner-bff-service-api-users-v1
+          uri: lb://hangouts-planner-bff-service
+          predicates:
+            - Path=/api/hangouts-planner-app/**
+          filters:
+            - RewritePath=/api/hangouts-planner-app/(?<segment>.*),/api/v1/$\{segment}
+            - RemoveRequestHeader= Cookie,Set-Cookie
+            - TokenRelay=
 
   security:
     oauth2:
@@ -31,12 +47,22 @@ spring:
             token-uri: http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/token
             authorization-uri: http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/auth
             user-info-uri: http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/userinfo
+            jwk-set-uri: "http://localhost:9990/auth/realms/hangouts-planner/protocol/openid-connect/certs"
         registration:
           hangouts-planner-backend-client:
             provider: keycloak
             client-id: hangouts-planner-backend-client
-            client-secret: SGNxPHUeR8vSCfoC2y03azoX09bJekXK
-            authorization-grant-type: client_credentials
+            client-secret: "{cipher}efca3157d679860abe7aa7c2b194f41414b686e6d7faf7decd51b83a5af5510d26e2b87c32b0796e5b2111e83772858fc9a7b5a15d365cd1a2fa5e9260e1e3f9"
+            scope: openid, profile, roles
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:4200"
+          google:
+            clientId: "{cipher}1fa817107a1c5e122c06e7a3b89b34bd6cd8999451e01beb409d2dd44c33697f790c5ad56bba3f624a195490005724717d5a1c61e9aedd9d1bbc10e8bc54ab1223b47d926e53e2370c003d7c0a896b675575da56dd3b1557239ec1e065b1d87b"
+            clientSecret: "{cipher}fabc1ab5d2dcd2be93e49c9bf8f2886fe24880cc7ff988e5d3af450ce909c35de6ca994e8905cbcb8e16f60a025f6265e66d915efe8686d7760da2fb293a0be1"
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
       resourceserver:
           jwt:
             issuer-uri: "http://localhost:9990/auth/realms/hangouts-planner"
@@ -76,4 +102,3 @@ logging:
         web: INFO
         security: INFO
         security.oauth2: INFO
-        cloud.gateway: TRACE

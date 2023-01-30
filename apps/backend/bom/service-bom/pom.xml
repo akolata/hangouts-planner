@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.8</version>
+        <version>2.7.9</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.hangoutsplanner</groupId>
     <artifactId>service-bom</artifactId>
-    <version>0.0.6-SNAPSHOT</version>
+    <version>0.0.7-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Backend Services BOM</name>
     <description>Hangouts Planner Backend services BOM</description>
@@ -20,8 +20,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot.version>2.7.8</spring.boot.version>
-        <spring.cloud.version>2021.0.5</spring.cloud.version>
+        <spring.boot.version>2.7.9</spring.boot.version>
+        <spring.cloud.version>2021.0.6</spring.cloud.version>
         <testcontainers.version>1.17.6</testcontainers.version>
         <springdoc-openapi-ui.version>1.6.14</springdoc-openapi-ui.version>
     </properties>

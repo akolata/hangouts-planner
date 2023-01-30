@@ -13,7 +13,25 @@ GET {{configServiceUrl}}/actuator/health/readiness
 ###
 # @name api-gateway service properties
 GET {{configServiceUrl}}/api-gateway/default
+Authorization: Basic config-client {{configServiceConfigClientPassword}}
 
 ###
 # @name hangout-service properties
 GET {{configServiceUrl}}/hangout-service/default
+Authorization: Basic config-client {{configServiceConfigClientPassword}}
+
+###
+# @name encrypt something for me please
+POST {{configServiceUrl}}/encrypt
+Content-Type: text/plain
+Authorization: Basic config-client {{configServiceConfigClientPassword}}
+
+test
+
+###
+# @name decrypt
+POST {{configServiceUrl}}/decrypt
+Content-Type: text/plain
+Authorization: Basic config-client {{configServiceConfigClientPassword}}
+
+1c0771b59d1d313e1cb0efd745852ba430140c2362d572e7893b22227712aad9

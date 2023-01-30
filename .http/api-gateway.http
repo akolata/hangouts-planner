@@ -10,3 +10,8 @@ Authorization: Bearer {{access_token}}
 # @name meeting-service test endpoint
 GET {{apiGatewayUrl}}/api/meeting-service/meetings/test
 Authorization: Bearer {{access_token}}
+
+###
+# @name hangouts-planner-bff-service/api/v1/users/user-info
+GET {{apiGatewayUrl}}/api/hangouts-planner-app/users/user-info
+Authorization: Bearer {{access_token}}

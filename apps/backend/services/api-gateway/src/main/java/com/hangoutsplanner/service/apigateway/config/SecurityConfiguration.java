@@ -10,8 +10,17 @@ class SecurityConfiguration {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        http.cors();
         http.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
-            .oauth2Login().and().oauth2ResourceServer().jwt();
+            .oauth2Login()
+//            .authorizationEndpoint()
+//            .baseUri("/oauth2/authorize")
+//            .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+//            .and()
+//            .redirectionEndpoint()
+//            .baseUri("/oauth2/callback/*")
+            .and()
+            .oauth2ResourceServer().jwt();
         http.csrf().disable();
         return http.build();
     }
