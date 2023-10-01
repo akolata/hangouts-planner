@@ -12,14 +12,14 @@ class SecurityConfiguration {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.cors();
         http.authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
-            .oauth2Login()
+//            .oauth2Login()
 //            .authorizationEndpoint()
 //            .baseUri("/oauth2/authorize")
 //            .authorizationRequestRepository(cookieAuthorizationRequestRepository())
 //            .and()
 //            .redirectionEndpoint()
 //            .baseUri("/oauth2/callback/*")
-            .and()
+//            .and()
             .oauth2ResourceServer().jwt();
         http.csrf().disable();
         return http.build();

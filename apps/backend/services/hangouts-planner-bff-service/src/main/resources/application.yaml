@@ -6,4 +6,5 @@ spring:
   cloud:
     config:
       fail-fast: true
-
+      username: config-client
+      password: JnJc&4Y+9:+vFpmg
