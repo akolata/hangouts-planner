@@ -1,6 +1,7 @@
 package com.hangoutsplanner.service.configservice.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.hangoutsplanner.service.configservice.properties.SecurityProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,16 +12,13 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 class SecurityConfiguration {
 
     /**
      * Password with encoder prefix (e.g. "{noop}...") added
      */
-    private final String configServiceSpringSecurityUserPassword;
-
-    SecurityConfiguration(@Value("${CONFIG_SERVICE_SPRING_SECURITY_USER_PASSWORD}") String configServiceSpringSecurityUserPassword) {
-        this.configServiceSpringSecurityUserPassword = configServiceSpringSecurityUserPassword;
-    }
+    private final SecurityProperties securityProperties;
 
     @Bean
     public SecurityFilterChain securityWebFilterChain(HttpSecurity http) throws Exception {
@@ -35,8 +33,8 @@ class SecurityConfiguration {
     @Bean
     public InMemoryUserDetailsManager configure() {
         UserDetails configClientUser = User.builder()
-            .username("config-client")
-            .password(configServiceSpringSecurityUserPassword)
+            .username(securityProperties.getSpringSecurityUsername())
+            .password(securityProperties.getSpringSecurityPassword())
             .roles("CONFIG_CLIENT")
             .build();
         return new InMemoryUserDetailsManager(configClientUser);
